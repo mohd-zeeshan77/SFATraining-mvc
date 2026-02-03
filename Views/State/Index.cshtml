@@ -9,16 +9,18 @@
     <Table>
         <thead>
             <tr>
-                <th style="border: 1px solid black; padding: 8px;">Name</th>
-                <th style="border: 1px solid black; padding: 8px;">Code</th>
+                <th style="border: 1px solid black; padding: 8px;">City Name</th>
+                <th style="border: 1px solid black; padding: 8px;">State Name</th>
+                <th style="border: 1px solid black; padding: 8px;">City Code</th>
             </tr>
         </thead>
         <tbody>
         @foreach(var name in Model)
         {
             <tr>
-                    <td style="border: 1px solid black; padding: 8px;">@name.Name</td>
-                    <td style="border: 1px solid black; padding: 8px;">@name.Code</td>
+                    <td style="border: 1px solid black; padding: 8px;">@name.CityName</td>
+                    <td style="border: 1px solid black; padding: 8px;">@name.StateName</td>
+                    <td style="border: 1px solid black; padding: 8px;">@name.StateCode</td>
             </tr>
         }
         </tbody>
