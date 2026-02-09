@@ -3,24 +3,25 @@
 *@
 @{
 }
-
+@{
+    ViewData["Title"] = "List of State";
+}s
+@model IReadOnlyList<StateViewModel>
 <div>
-    <h1 style="color:brown">State And Cities List</h1>
-    <Table>
+    <h1 style="color:brown">List of States</h1>
+    <Table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th style="border: 1px solid black; padding: 8px; color:darkslategray">City Name</th>
-                <th style="border: 1px solid black; padding: 8px; color:darkslategray">State Name</th>
-                <th style="border: 1px solid black; padding: 8px;color:darkslategray">City Code</th>
+                <th style="padding: 8px; color:darkslategray">State Name</th>
+                <th style="padding: 8px;color:darkslategray">City Code</th>
             </tr>
         </thead>
         <tbody>
         @foreach(var name in Model)
         {
             <tr>
-                    <td style="border: 1px solid black; padding: 8px; color:darkslateblue">@name.CityName</td>
-                    <td style="border: 1px solid black; padding: 8px; color:slateblue"><b>@name.StateName</b></td>
-                    <td style="border: 1px solid black; padding: 8px; color:darkmagenta">@name.StateCode</td>
+                    <td style="padding: 8px; color:slateblue"><b>@name.Name</b></td>
+                    <td style="padding: 8px; color:darkmagenta">@name.Code</td>
             </tr>
         }
         </tbody>

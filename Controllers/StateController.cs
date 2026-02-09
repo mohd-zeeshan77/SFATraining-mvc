@@ -1,25 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebTestMVC.Data;
+using WebTestMVC.Models;
+using WebTestMVC.Services;
 
 namespace WebTestMVC.Controllers
 {
     public sealed class StateController : Controller
     {
-        
         public IActionResult Index()
         {
-            AppDbContext dbContext = new();
-            //var view = dbContext.state.Select(s => new { s.Name, s.Code }).ToList();
+            StateService stateService = new StateService();
+            IEnumerable<StateViewModel> states = stateService.GetStates();
+            return View(states);
+        }
+        [HttpGet]
+        public IActionResult Create() { 
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(StateViewModel state)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(state);
+            }
 
-            var view = dbContext.city.Join(dbContext.state, city => city.StateId, state => state.Id,
-                (city, state) => new
-                {
-                    CityName = city.Name,
-                    StateName = state.Name,
-                    StateCode = state.Code
-                }).ToList();
-            return View(view);
+            StateService stateService = new StateService();
+            IEnumerable<StateViewModel> result  = stateService.CreateStates(state);
+           
+            return RedirectToAction("Index");
         }
     }
 }
