@@ -7,11 +7,15 @@ namespace WebTestMVC.Services
 {
     public sealed class StateCityService
     {
+        private readonly AppDbContext _dbContext;
+        public StateCityService(AppDbContext dbContext)
+        {
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        }
         public IEnumerable<StateCityViewModel> GetStateCity()
         {
-            AppDbContext dbContext = new();
-           var cityStateDetail= dbContext.city
-                .Join(dbContext.state,
+           IReadOnlyList<StateCityViewModel> cityStateDetail= _dbContext.City
+                .Join(_dbContext.State,
                 city => city.StateId,
                 state => state.Id,
                 (city, state) => new StateCityViewModel

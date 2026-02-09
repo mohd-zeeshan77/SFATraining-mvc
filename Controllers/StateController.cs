@@ -8,10 +8,16 @@ namespace WebTestMVC.Controllers
 {
     public sealed class StateController : Controller
     {
+
+        private readonly StateService _stateService;
+
+        public StateController(StateService stateService)
+        {
+            _stateService = stateService ?? throw new ArgumentNullException(nameof(stateService));
+        }
         public IActionResult Index()
         {
-            StateService stateService = new StateService();
-            IEnumerable<StateViewModel> states = stateService.GetStates();
+            IEnumerable<StateViewModel> states = _stateService.GetStates();
             return View(states);
         }
         [HttpGet]
@@ -26,8 +32,7 @@ namespace WebTestMVC.Controllers
                 return View(state);
             }
 
-            StateService stateService = new StateService();
-            IEnumerable<StateViewModel> result  = stateService.CreateStates(state);
+            IEnumerable<StateViewModel> result  = _stateService.CreateStates(state);
            
             return RedirectToAction("Index");
         }

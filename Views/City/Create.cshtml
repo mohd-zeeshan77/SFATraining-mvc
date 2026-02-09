@@ -1,0 +1,23 @@
+﻿@model CityViewModel
+<form asp-controller="City" asp-action="Create" method="post">
+    <div class="row mb-3">
+        @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="mb-3 row">
+        @Html.LabelFor(m => m.StateId, new { @class = "col-sm-2 col-form-label" })
+        <div class="col-sm-10">
+            @Html.DropDownListFor(m => m.StateId,
+            new SelectList(Model.States, "Id", "Name"),
+                        "Select State",
+                        new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.StateId, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div>
+        <button type="submit" class="btn-primary btn">Save</button>
+    </div>
+</form>

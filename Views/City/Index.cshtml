@@ -4,26 +4,24 @@
 @{
 }
 @{
-    ViewData["Title"] = "List of State";
+    ViewData["Title"] = "List of Cities";
 }
-@model IReadOnlyList<StateViewModel>
+@model IReadOnlyList<CityViewModel>
 <div>
     <h1 style="color:brown">List of States</h1>
     <Table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th style="padding: 8px; color:darkslategray">State Name</th>
-                <th style="padding: 8px;color:darkslategray">City Code</th>
+                <th style="padding: 8px; color:darkslategray">City Name</th>
             </tr>
         </thead>
         <tbody>
-        @foreach(var name in Model)
-        {
-            <tr>
+            @foreach (var name in Model)
+            {
+                <tr>
                     <td style="padding: 8px; color:slateblue"><b>@name.Name</b></td>
-                    <td style="padding: 8px; color:darkmagenta">@name.Code</td>
-            </tr>
-        }
+                </tr>
+            }
         </tbody>
     </Table>
 </div>
