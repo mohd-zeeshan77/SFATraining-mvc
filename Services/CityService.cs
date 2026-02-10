@@ -27,7 +27,12 @@ namespace WebTestMVC.Services
 
         public IEnumerable<CityViewModel> CreateCities(CityViewModel model)
         {
-            City city = new() { Name = model.Name, StateId = model.StateId };
+            if (!model.StateId.HasValue)
+            {
+                
+                throw new ArgumentException("State is required");
+            }
+            City city = new() { Name = model.Name, StateId = model.StateId.Value };
             _dbContext.Add(city);
             _dbContext.SaveChanges();
             return GetCities();

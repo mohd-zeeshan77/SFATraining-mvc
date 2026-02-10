@@ -1,14 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebTestMVC.Models
 {
     public sealed class CityViewModel
     {
-        public required int Id { get; init; }
+        public int Id { get; set; }
         [Required]
-        public required string Name { get; init; }
+        public string? Name { get; set; }
         [Required]
-        public required int StateId { get; init; }
-        public IEnumerable<StateViewModel>? States { get; init; }
+        [ForeignKey("State")]
+        public int? StateId { get; set; }
+        public IEnumerable<StateViewModel>? States { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace WebTestMVC.Controllers
         }
         [HttpGet]
         public IActionResult Create() {
-            CityViewModel viewModel = new CityViewModel
+            var viewModel = new CityViewModel
             {
                 States = _stateService.GetStates()
             };

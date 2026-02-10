@@ -10,6 +10,7 @@ namespace WebTestMVC.Data
         [Key]public int Id { get; set; }
         [Column("name")]
         public required string Name { get; set; }
+        [ForeignKey("State")]
         public int StateId {  get; set; }
 
         public State? State { get; set; }
