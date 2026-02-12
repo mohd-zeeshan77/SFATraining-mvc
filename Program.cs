@@ -15,8 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services
     .AddScoped<StateService>()
     .AddScoped<StateCityService>()
-    .AddScoped<CityService>()
-    .AddScoped<StateApiService>();
+    .AddScoped<CityService>();
 
 
 var app = builder.Build();

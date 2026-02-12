@@ -1,38 +1,56 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using WebTestMVC.Dtos;
 using WebTestMVC.Services;
 
 namespace WebTestMVC.Controllers;
 
-public class StateApiController : Controller
+[Route("api/state")]
+public class StateApiController : ControllerBase
 {
-    private readonly StateApiService _stateApiService;
+    private readonly StateService _stateService;
 
-    public StateApiController(StateApiService stateApiService)
+    public StateApiController(StateService stateService)
     {
-        _stateApiService = stateApiService ?? throw new ArgumentNullException(nameof(stateApiService));
+        _stateService = stateService ?? throw new ArgumentNullException(nameof(stateService));
     }
 
     [HttpGet]
-    [Route("api/state")]
+    [Route("")]
     public IActionResult Get()
     {
-        var states = _stateApiService.GetAllStates();
+        IEnumerable<StateDto> states = _stateService.GetAllStates();
 
         return Ok(states);
     }
 
     [HttpGet]
-    [Route("api/state/{Id:int}")]
+    [Route("{Id:int}")]
     public IActionResult Get(int Id)
     {
-        try
+        StateDto? state = _stateService.GetState(Id);
+        return state is null ? NotFound() : Ok(state);
+    }
+
+    [HttpPost]
+    [Route("")]
+    public IActionResult Create([FromBody] CreateStateRequest request) {
+        if (!ModelState.IsValid)
         {
-            var state = _stateApiService.getStateById(Id);
-            return Ok(state);
+            return BadRequest(ModelState);
         }
-        catch (KeyNotFoundException)
+        bool result = _stateService.CreateState(request);
+        return Ok(result);
+    }
+    [HttpPut]
+    [Route("{Id:int}")]
+    public IActionResult Create([FromBody] CreateStateRequest request, int Id)
+    {
+        if (!ModelState.IsValid)
         {
-            return NotFound();
+            return BadRequest(ModelState);
         }
+        StateDto? state = _stateService.UpdateState(Id,request);
+        return state is null ? Conflict() : Ok(state);
     }
 }
