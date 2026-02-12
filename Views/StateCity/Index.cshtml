@@ -11,21 +11,23 @@
     <h1 style="color:brown">State And Cities List</h1>
     <Table class=" table table-bordered table-striped">
         <thead>
-            <tr>
-                <th style=" padding: 8px; color:darkslategray">City Name</th>
-                <th style=" padding: 8px; color:darkslategray">State Name</th>
-                <th style=" padding: 8px;color:darkslategray">City Code</th>
-            </tr>
+        <tr>
+            <th style=" padding: 8px; color:darkslategray">City Name</th>
+            <th style=" padding: 8px; color:darkslategray">State Name</th>
+            <th style=" padding: 8px;color:darkslategray">City Code</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var name in Model)
-            {
-                <tr>
-                    <td style="padding: 8px; color:darkslateblue">@name.CityName</td>
-                    <td style="padding: 8px; color:slateblue"><b>@name.StateName</b></td>
-                    <td style="padding: 8px; color:darkmagenta">@name.StateCode</td>
-                </tr>
-            }
+        @foreach (var name in Model)
+        {
+            <tr>
+                <td style="padding: 8px; color:darkslateblue">@name.CityName</td>
+                <td style="padding: 8px; color:slateblue">
+                    <b>@name.StateName</b>
+                </td>
+                <td style="padding: 8px; color:darkmagenta">@name.StateCode</td>
+            </tr>
+        }
         </tbody>
     </Table>
 </div>

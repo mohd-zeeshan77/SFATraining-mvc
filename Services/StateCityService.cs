@@ -1,30 +1,29 @@
 ﻿using WebTestMVC.Data;
-using Microsoft.EntityFrameworkCore;
 using WebTestMVC.Models;
 
+namespace WebTestMVC.Services;
 
-namespace WebTestMVC.Services
+public sealed class StateCityService
 {
-    public sealed class StateCityService
+    private readonly AppDbContext _dbContext;
+
+    public StateCityService(AppDbContext dbContext)
     {
-        private readonly AppDbContext _dbContext;
-        public StateCityService(AppDbContext dbContext)
-        {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        }
-        public IEnumerable<StateCityViewModel> GetStateCity()
-        {
-           IReadOnlyList<StateCityViewModel> cityStateDetail= _dbContext.City
-                .Join(_dbContext.State,
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+    }
+
+    public IEnumerable<StateCityViewModel> GetStateCity()
+    {
+        IReadOnlyList<StateCityViewModel> cityStateDetail = _dbContext.City
+            .Join(_dbContext.State,
                 city => city.StateId,
                 state => state.Id,
                 (city, state) => new StateCityViewModel
                 {
                     CityName = city.Name,
                     StateName = state.Name,
-                    StateCode = state.Code,
-                }).ToList(); 
-            return cityStateDetail;
-        }
+                    StateCode = state.Code
+                }).ToList();
+        return cityStateDetail;
     }
 }

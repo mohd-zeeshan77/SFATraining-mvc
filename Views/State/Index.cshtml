@@ -11,17 +11,19 @@
     <h1 style="color:brown">List of States</h1>
     <Table class="table table-striped table-bordered">
         <thead>
-            <tr>
-                <th style="padding: 8px; color:darkslategray">State Name</th>
-                <th style="padding: 8px;color:darkslategray">City Code</th>
-            </tr>
+        <tr>
+            <th style="padding: 8px; color:darkslategray">State Name</th>
+            <th style="padding: 8px;color:darkslategray">City Code</th>
+        </tr>
         </thead>
         <tbody>
-        @foreach(var name in Model)
+        @foreach (var name in Model)
         {
             <tr>
-                    <td style="padding: 8px; color:slateblue"><b>@name.Name</b></td>
-                    <td style="padding: 8px; color:darkmagenta">@name.Code</td>
+                <td style="padding: 8px; color:slateblue">
+                    <b>@name.Name</b>
+                </td>
+                <td style="padding: 8px; color:darkmagenta">@name.Code</td>
             </tr>
         }
         </tbody>

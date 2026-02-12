@@ -1,19 +1,19 @@
 ﻿@model StateViewModel
 
-<form asp-controller ="State" asp-action="Create" method="post">
+<form asp-controller="State" asp-action="Create" method="post">
     @Html.ValidationSummary()
     <div class="mb-3  row">
         @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Name , new {@class = "form-control"})
-            @Html.ValidationMessageFor(m => m.Name ,null, new{@class = "text-danger"})
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
         </div>
     </div>
     <div class="mb-3 row">
         @Html.LabelFor(m => m.Code, new { @class = "col-sm-2 col-form-label" })
         <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", maxlength = "2",onkeyup = "this.value = this.value.toUpperCase();"})
-            @Html.ValidationMessageFor(m => m.Code, null,new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", maxlength = "2", onkeyup = "this.value = this.value.toUpperCase();" })
+            @Html.ValidationMessageFor(m => m.Code, null, new { @class = "text-danger" })
         </div>
     </div>
     <div>

@@ -1,40 +1,37 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WebTestMVC.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebTestMVC.Models;
 using WebTestMVC.Services;
 
-namespace WebTestMVC.Controllers
+namespace WebTestMVC.Controllers;
+
+public sealed class StateController : Controller
 {
-    public sealed class StateController : Controller
+    private readonly StateService _stateService;
+
+    public StateController(StateService stateService)
     {
+        _stateService = stateService ?? throw new ArgumentNullException(nameof(stateService));
+    }
 
-        private readonly StateService _stateService;
+    public IActionResult Index()
+    {
+        var states = _stateService.GetStates();
+        return View(states);
+    }
 
-        public StateController(StateService stateService)
-        {
-            _stateService = stateService ?? throw new ArgumentNullException(nameof(stateService));
-        }
-        public IActionResult Index()
-        {
-            IEnumerable<StateViewModel> states = _stateService.GetStates();
-            return View(states);
-        }
-        [HttpGet]
-        public IActionResult Create() { 
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(StateViewModel state)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(state);
-            }
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
 
-            IEnumerable<StateViewModel> result  = _stateService.CreateStates(state);
-           
-            return RedirectToAction("Index");
-        }
+    [HttpPost]
+    public IActionResult Create(StateViewModel state)
+    {
+        if (!ModelState.IsValid) return View(state);
+
+        var result = _stateService.CreateStates(state);
+
+        return RedirectToAction("Index");
     }
 }
