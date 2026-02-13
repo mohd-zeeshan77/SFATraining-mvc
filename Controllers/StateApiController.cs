@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebTestMVC.Dtos;
 using WebTestMVC.Services;
 
@@ -19,7 +18,7 @@ public class StateApiController : ControllerBase
     [Route("")]
     public IActionResult Get()
     {
-        IEnumerable<StateDto> states = _stateService.GetAllStates();
+        var states = _stateService.GetAllStates();
 
         return Ok(states);
     }
@@ -28,29 +27,44 @@ public class StateApiController : ControllerBase
     [Route("{Id:int}")]
     public IActionResult Get(int Id)
     {
-        StateDto? state = _stateService.GetState(Id);
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var state = _stateService.GetState(Id);
         return state is null ? NotFound() : Ok(state);
     }
 
     [HttpPost]
     [Route("")]
-    public IActionResult Create([FromBody] CreateStateRequest request) {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        bool result = _stateService.CreateState(request);
-        return Ok(result);
+    public IActionResult Create([FromBody] CreateStateRequest request)
+    {
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var state = _stateService.CreateState(request);
+        return state is null ? NotFound() : Ok(state);
     }
+
     [HttpPut]
     [Route("{Id:int}")]
     public IActionResult Create([FromBody] CreateStateRequest request, int Id)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        StateDto? state = _stateService.UpdateState(Id,request);
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var state = _stateService.UpdateState(Id, request);
         return state is null ? Conflict() : Ok(state);
+    }
+
+    [HttpDelete]
+    [Route("{Id:int}")]
+    public IActionResult Delete(int Id)
+    {
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var state = _stateService.DeleteState(Id);
+        return state is null ? NotFound() : Ok(state);
+    }
+
+    [HttpPatch]
+    [Route("{Id:int}")]
+    public IActionResult Actice(int Id, [FromBody] ActiveReaquest request)
+    {
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var state = _stateService.UpdateActive(Id, request);
+        return state is null ? NotFound() : Ok(state);
     }
 }

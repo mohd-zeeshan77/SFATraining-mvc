@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebTestMVC.Dtos
+namespace WebTestMVC.Dtos;
+
+public class CreateStateRequest(string Name, string Code, bool IsActive)
 {
-    public class CreateStateRequest
-    {
-        [Required]
-        public required string Name { get; init; }
-        [Required]
-        [StringLength(2,MinimumLength =2)]
-        public required string Code {  get; init; }
-    }
+    [Required] public string Name { get; } = Name;
+
+    [Required]
+    [StringLength(2, MinimumLength = 2)]
+    public string Code { get; } = Code;
+
+    public bool IsActive { get; } = IsActive;
 }

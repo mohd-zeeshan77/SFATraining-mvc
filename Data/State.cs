@@ -11,4 +11,5 @@ public sealed class State
     [Column("name")] [StringLength(100)] public required string Name { get; set; }
 
     [Column("code")] [StringLength(2)] public required string Code { get; set; }
+    public required bool IsActive { get; set; }
 }

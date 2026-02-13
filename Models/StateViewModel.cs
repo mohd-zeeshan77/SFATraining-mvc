@@ -11,4 +11,6 @@ public sealed class StateViewModel
     [Required]
     [StringLength(2, MinimumLength = 2)]
     public required string Code { get; init; }
+
+    public required bool IsActive { get; init; }
 }
