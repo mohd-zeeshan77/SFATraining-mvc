@@ -12,6 +12,11 @@ public sealed class StateController : Controller
     {
         _stateService = stateService ?? throw new ArgumentNullException(nameof(stateService));
     }
+    public IActionResult CityState()
+    {
+        var view = _stateService.GetStateCity();
+        return View(view);
+    }
 
     public IActionResult Index()
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebTestMVC.Data;
+using WebTestMVC.Dtos;
 using WebTestMVC.Models;
 
 namespace WebTestMVC.Services;
@@ -35,4 +36,27 @@ public class CityService
         _dbContext.SaveChanges();
         return GetCities();
     }
+
+    public IEnumerable<CityDto> GetAll()
+    {
+        return _dbContext.City.Select(city => new CityDto(city.Id, city.Name, city.StateId))
+            .ToList();
+    }
+    public IEnumerable<CityDto> GetAllByState(int StateId)
+    {
+        return _dbContext.City
+            .Where(city => city.StateId == StateId)
+            .Select(city => new CityDto(city.Id, city.Name, city.StateId))
+            .ToList();
+    }
+    public void AddCity(int StateId, CreateCityRequest request)
+    {
+        State? state = _dbContext.State.Find(StateId);
+        if (state == null) throw new KeyNotFoundException($"state id {StateId} not found in");
+        City city = new() { Name = request.Name, StateId = StateId };
+        _dbContext.Add(city);
+        _dbContext.SaveChanges();
+
+    }
+
 }

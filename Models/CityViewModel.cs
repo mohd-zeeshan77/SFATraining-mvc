@@ -9,7 +9,7 @@ public sealed class CityViewModel
 
     [Required] public string? Name { get; set; }
 
-    [Required] [ForeignKey("State")] public int? StateId { get; set; }
+    [Required][ForeignKey("State")] public int? StateId { get; set; }
 
     public IEnumerable<StateViewModel>? States { get; set; }
 }

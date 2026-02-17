@@ -18,7 +18,7 @@ public class StateApiController : ControllerBase
     [Route("")]
     public IActionResult Get()
     {
-        var states = _stateService.GetAllStates();
+        IEnumerable<StateDto> states = _stateService.GetAllStates();
 
         return Ok(states);
     }
@@ -28,7 +28,7 @@ public class StateApiController : ControllerBase
     public IActionResult Get(int Id)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
-        var state = _stateService.GetState(Id);
+        StateDto? state = _stateService.GetState(Id);
         return state is null ? NotFound() : Ok(state);
     }
 
@@ -37,7 +37,7 @@ public class StateApiController : ControllerBase
     public IActionResult Create([FromBody] CreateStateRequest request)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
-        var state = _stateService.CreateState(request);
+        StateDto? state = _stateService.CreateState(request);
         return state is null ? NotFound() : Ok(state);
     }
 
@@ -46,7 +46,7 @@ public class StateApiController : ControllerBase
     public IActionResult Create([FromBody] CreateStateRequest request, int Id)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
-        var state = _stateService.UpdateState(Id, request);
+        StateDto? state = _stateService.UpdateState(Id, request);
         return state is null ? Conflict() : Ok(state);
     }
 
@@ -55,7 +55,7 @@ public class StateApiController : ControllerBase
     public IActionResult Delete(int Id)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
-        var state = _stateService.DeleteState(Id);
+        StateDto? state = _stateService.DeleteState(Id);
         return state is null ? NotFound() : Ok(state);
     }
 
@@ -64,7 +64,7 @@ public class StateApiController : ControllerBase
     public IActionResult Actice(int Id, [FromBody] ActiveReaquest request)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
-        var state = _stateService.UpdateActive(Id, request);
+        StateDto? state = _stateService.UpdateActive(Id, request);
         return state is null ? NotFound() : Ok(state);
     }
 }

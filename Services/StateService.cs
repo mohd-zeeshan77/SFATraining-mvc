@@ -36,7 +36,20 @@ public sealed class StateService
         _dbContext.SaveChanges();
         return GetStates();
     }
-
+    public IEnumerable<StateCityViewModel> GetStateCity()
+    {
+        IReadOnlyList<StateCityViewModel> cityStateDetail = _dbContext.City
+            .Join(_dbContext.State,
+                city => city.StateId,
+                state => state.Id,
+                (city, state) => new StateCityViewModel
+                {
+                    CityName = city.Name,
+                    StateName = state.Name,
+                    StateCode = state.Code
+                }).ToList();
+        return cityStateDetail;
+    }
 
     public IEnumerable<StateDto> GetAllStates()
     {
@@ -50,7 +63,7 @@ public sealed class StateService
     {
         try
         {
-            var state = _dbContext.State.FirstOrDefault(s => s.Code == request.Code);
+            State? state = _dbContext.State.FirstOrDefault(s => s.Code == request.Code);
             if (state is not null) return null;
             state = new State { Name = request.Name, Code = request.Code, IsActive = request.IsActive };
             _dbContext.Add(state);
@@ -83,12 +96,12 @@ public sealed class StateService
     {
         try
         {
-            var state = _dbContext.State.Find(Id);
+            State? state = _dbContext.State.Find(Id);
             if (state is null) return null;
             if (state.Code != request.Code || state.Name != request.Name)
             {
-                var stateByName = _dbContext.State.FirstOrDefault(s => s.Name == request.Name);
-                var stateByCode = _dbContext.State.FirstOrDefault(s => s.Code == request.Code);
+                State? stateByName = _dbContext.State.FirstOrDefault(s => s.Name == request.Name);
+                State? stateByCode = _dbContext.State.FirstOrDefault(s => s.Code == request.Code);
 
 
                 if (stateByName != null)
@@ -123,7 +136,7 @@ public sealed class StateService
 
     public StateDto? GetState(int Id)
     {
-        var state = _dbContext.State.Find(Id);
+        State? state = _dbContext.State.Find(Id);
         if (state is null) return null;
         return new StateDto(state.Id, state.Name, state.Code, state.IsActive);
     }
@@ -132,7 +145,8 @@ public sealed class StateService
     {
         try
         {
-            var state = _dbContext.State.Find(Id);
+            State? state = _dbContext.State.Find(Id);
+
             if (state is null) return null;
             _dbContext.Remove(state);
             _dbContext.SaveChanges();
@@ -155,7 +169,7 @@ public sealed class StateService
     {
         try
         {
-            var state = _dbContext.State.Find(Id);
+            State? state = _dbContext.State.Find(Id);
             if (state is null) return null;
 
             state.IsActive = request.IsActive;
